@@ -39,15 +39,18 @@ describe("When barcodeService is referenced", function() {
     });
 
     describe("and scan is called", function() {
-        it("should return demo when in development mode", function() {
+        it("should return the barcode TestBarcode when in development mode", function() {
             service.scan().then(function(value) {
-                expect(value.text).toBe("demo");
+                expect(value.text).toBe("TestBarcode");
                 exoect(value.cancelled).toBe(false);
             });
         });
 
         it("should call scan method in $cordovaBarcodeScanner", function() {
             mockWindow.cordova = true;
+
+            // Global object :S how can i mock this out?
+            ionic.Platform.isWebView = function(){ return true; };
             service.scan();
             expect(mockCordovaBarcodeScanner.scanIsCalled).toBe(true);
         });

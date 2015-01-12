@@ -3,17 +3,29 @@
         .service("barcodeService", function($window, $q, $cordovaBarcodeScanner) {
             var barcodeservice = this;
 
-            barcodeservice.barcode = "";
-            barcodeservice.isCancelled = false;
+            barcodeservice.text = "";
+            barcodeservice.cancelled = false;
             barcodeservice.format = "";
 
             barcodeservice.scan = function() {
-                    return $cordovaBarcodeScanner.scan()
-                                                 .then(function(imageData) {
-                                                            barcodeservice.barcode = imageData.text;
-                                                            barcodeservice.isCancelled = imageData.cancelled;
-                                                            barcodeservice.format = imageData.format;
-                                                        });
+                if (ionic.Platform.isWebView()) {
+                    return $cordovaBarcodeScanner
+                        .scan()
+                        .then(function(imageData) {
+                            barcodeservice.text = imageData.text;
+                            alert(imageData.text);
+                            barcodeservice.cancelled = imageData.cancelled;
+                            barcodeservice.format = imageData.format;
+                        });
+                } else {
+                    // Creating test data for development purposes
+                    var deferred = $q.defer();
+                    barcodeservice.text = "TestBarcode";
+                    barcodeservice.cancelled = false;
+                    barcodeservice.format = "EAN-13";
+                    deferred.resolve(barcodeservice);
+                    return deferred.promise;
+                }
             };
         });
 })();

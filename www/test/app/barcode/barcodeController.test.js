@@ -1,6 +1,9 @@
-describe("When barcode controller is called", function() {
+describe("When barcode controller is referenced", function() {
     var controller,
-    	mockBarcodeservice;
+        mockBarcodeservice,
+        mockIonicPlatform,
+        mockState;
+
     beforeEach(function() {
         module("matpriser");
     });
@@ -12,12 +15,27 @@ describe("When barcode controller is called", function() {
             scan: function() {
                 this.scanIsCalled = true;
                 return {
-                    then: function() {}
+                    then: function(func) { func(); }
                 };
             }
         };
 
+        mockIonicPlatform = {
+            ready: function(func) {
+                func();
+            }
+        };
+
+        mockState = {
+            transitionToIsCalledWith: undefined,
+            transitionTo: function(inputState) {
+                this.transitionToIsCalledWith = inputState;
+            }
+        };
+
         controller = $controller("barcodeController", {
+            $ionicPlatform: mockIonicPlatform,
+            $state: mockState,
             barcodeService: mockBarcodeservice
         });
     }));
@@ -26,7 +44,13 @@ describe("When barcode controller is called", function() {
         expect(controller).toBeDefined();
     });
 
-    it("scan() for cordovaBarcodeScanner should be called", function() {
-    	expect(mockBarcodeservice.scanIsCalled).toBe(true);
+    describe("and scan() for cordovaBarcodeScanner is called", function() {
+        it("should be called", function() {
+            expect(mockBarcodeservice.scanIsCalled).toBe(true);
+        });
+
+        it("should transition to information state", function() {
+            expect(mockState.transitionToIsCalledWith).toBe("price");
+        });
     });
 });
