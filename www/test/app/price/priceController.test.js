@@ -30,8 +30,12 @@ describe("When priceController is referenced", function() {
                     return {
                         success: function() {
                             return {
-                                error: function() {}
-                            }
+                                error: function() {
+                                    return {
+                                        finally: function() {}
+                                    };
+                                }
+                            };
                         }
                     };
                 }
@@ -61,8 +65,14 @@ describe("When priceController is referenced", function() {
         expect(controller).toBeDefined();
     });
 
-    it("the productService.get should be called with text from barcodeService", function() {
-        expect(mockProductservice.getIsCalledWithParameter).toBe(mockBarcodeservice.text);
+    describe("productService.get", function() {
+        it("should be called with text from barcodeService", function() {
+            expect(mockProductservice.getIsCalledWithParameter).toBe(mockBarcodeservice.text);
+        });
+
+        it('should show loader', function() {
+            expect(mockIonicLoading.showIsCalled).toBe(true);
+        });
     });
 
     describe("with product variable", function() {
