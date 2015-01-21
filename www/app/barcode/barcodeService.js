@@ -1,6 +1,6 @@
 (function() {
     angular.module('matpriser')
-        .service("barcodeService", function($window, $q, $cordovaBarcodeScanner) {
+        .service("barcodeService", function($q, $cordovaBarcodeScanner) {
             var barcodeservice = this;
 
             barcodeservice.text = "";

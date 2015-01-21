@@ -14,7 +14,19 @@ describe("productService", function() {
                 this.getIsCalled = true;
                 this.getIsCalledWithUrl = url;
                 this.getIsCalledWithParams = config.params;
+            },
+
+            post: function() {
+                return {
+                    success: function(func) {
+                        return func(true);
+                    }
+                }
             }
+        };
+
+        ionic.Platform.isWebView = function() {
+            return true;
         };
 
         module(function($provide) {
@@ -44,6 +56,20 @@ describe("productService", function() {
         it("should call http.get with barcode", function() {
             service.get("barcode");
             expect(mockHttp.getIsCalledWithParams.barcode).toBe("barcode");
+        });
+
+        describe('and its in a webbrowser', function() {
+            beforeEach(function() {
+                ionic.Platform.isWebView = function() {
+                    return false;
+                };
+            });
+
+            it('should return a object with name dummy', function() {
+                service.get("foo").success(function(product) {
+                    expect(product.name).toBe("dummy");
+                });
+            });
         });
     });
 });

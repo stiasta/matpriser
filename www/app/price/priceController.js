@@ -9,7 +9,7 @@
                 lastUpdated: Date.now()
             };
 
-           	$ionicLoading.show();
+            $ionicLoading.show();
             productService
                 .get(barcodeService.text)
                 .success(function(data) {
@@ -20,9 +20,9 @@
                         lastUpdated: Date.now()
                     };
                 })
-                .error(function(data) { })
-                .finally(function(){
-                	$ionicLoading.hide();
+                .error(function(data) {})
+                .finally(function() {
+                    $ionicLoading.hide();
                 });
         });
 })();

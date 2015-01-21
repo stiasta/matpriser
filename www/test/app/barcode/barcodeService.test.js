@@ -1,7 +1,6 @@
 describe("When barcodeService is referenced", function() {
     var service,
-        mockCordovaBarcodeScanner,
-        mockWindow;
+        mockCordovaBarcodeScanner;
 
     beforeEach(function() {
         module("matpriser");
@@ -20,17 +19,11 @@ describe("When barcodeService is referenced", function() {
                 }
             };
 
-            mockWindow = {
-                cordova: false
-            };
-
             $provide.value("$cordovaBarcodeScanner", mockCordovaBarcodeScanner);
-            $provide.value("$window", mockWindow);
         });
 
-        inject(function($injector, barcodeService) {
+        inject(function($injector) {
             service = $injector.get("barcodeService");
-            service = barcodeService;
         });
     });
 
@@ -47,8 +40,6 @@ describe("When barcodeService is referenced", function() {
         });
 
         it("should call scan method in $cordovaBarcodeScanner", function() {
-            mockWindow.cordova = true;
-
             // Global object :S how can i mock this out?
             ionic.Platform.isWebView = function(){ return true; };
             service.scan();

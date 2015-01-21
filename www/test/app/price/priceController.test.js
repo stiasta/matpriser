@@ -32,7 +32,9 @@ describe("When priceController is referenced", function() {
                             return {
                                 error: function() {
                                     return {
-                                        finally: function() {}
+                                        finally: function(func) {
+                                            func();
+                                        }
                                     };
                                 }
                             };
@@ -54,7 +56,7 @@ describe("When priceController is referenced", function() {
             };
 
             controller = $controller("priceController", {
-                ionicLoading: mockIonicLoading,
+                $ionicLoading: mockIonicLoading,
                 barcodeService: mockBarcodeservice,
                 productService: mockProductservice
             });
@@ -72,6 +74,10 @@ describe("When priceController is referenced", function() {
 
         it('should show loader', function() {
             expect(mockIonicLoading.showIsCalled).toBe(true);
+        });
+
+        it("should hide loader when finally is called", function() {
+            expect(mockIonicLoading.hideIsCalled).toBe(true);
         });
     });
 

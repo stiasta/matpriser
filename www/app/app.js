@@ -26,12 +26,19 @@ angular.module('matpriser', ['ionic', 'ngCordova'])
     $stateProvider
         .state("home", {
             url: "/",
+            controller: "storeController",
+            controllerAs: "storeController as storesController",
+            templateUrl: "app/store/storelist.html"
+        })
+        .state("barcode", {
+            url: "/barcode",
             controller: "barcodeController"
         })
         .state("price", {
             url: "/price",
             templateUrl: "app/price/price.html",
-            controller: "priceController"
+            controller: "priceController",
+            controllerAs: "priceController as pricecontroller"
         });
 
     // Ionic uses AngularUI Router which uses the concept of states
