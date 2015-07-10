@@ -8,7 +8,7 @@ describe('when storecontroller is used', function() {
         module("matpriser");
 
         store = {
-            navn: "Rema 1000",
+            name: "Rema 1000",
             id: 1
         };
 
@@ -21,10 +21,10 @@ describe('when storecontroller is used', function() {
                     then: function(func) {
                         this.parent.haveRetrievedStores = true;
                         func([store, {
-                            navn: "Rimi",
+                            name: "Rimi",
                             id: 2
                         }, {
-                            navn: "Bunnpris",
+                            name: "Bunnpris",
                             id: 3
                         }]);
                     }

@@ -8,6 +8,7 @@ describe("When priceController is referenced", function() {
         module("matpriser");
 
         inject(function($controller) {
+            angular.element(document.body).append("<input id='new_price' type='number' />");
             mockBarcodeservice = {
                 text: "testBarcode",
                 scanIsCalled: false,
@@ -24,11 +25,21 @@ describe("When priceController is referenced", function() {
 
             mockProductservice = {
                 getIsCalledWithParameter: undefined,
+                savedProduct: undefined,
+                set: function(product) {
+                    this.savedProduct = product;
+                    return {
+                        success: function(func) {
+                            func();
+                        }
+                    };
+                },
                 get: function(input) {
                     this.getIsCalledWithParameter = input;
 
                     return {
-                        success: function() {
+                        success: function(func) {
+                            func && func();
                             return {
                                 error: function() {
                                     return {
@@ -63,8 +74,24 @@ describe("When priceController is referenced", function() {
         });
     });
 
+    afterEach(function() {
+        document.body.innerHTML = "";
+    });
+
     it("it should be created", function() {
         expect(controller).toBeDefined();
+    });
+
+    it("should have a function called save", function() {
+        expect(controller.save).toBeDefined();
+    });
+
+    it("should save product in productService when save is called", function() {
+        var product = {
+            name: "foo"
+        };
+        controller.save(product);
+        expect(mockProductservice.savedProduct).toBe(product);
     });
 
     describe("productService.get", function() {
@@ -79,6 +106,10 @@ describe("When priceController is referenced", function() {
         it("should hide loader when finally is called", function() {
             expect(mockIonicLoading.hideIsCalled).toBe(true);
         });
+
+        it("should set newPrice to price from service", function() {
+            expect(controller.product.newPrice).toBe(controller.product.price);
+        });
     });
 
     describe("with product variable", function() {
@@ -88,6 +119,6 @@ describe("When priceController is referenced", function() {
 
         it("the newPrice should be initialized to be the same as price", function() {
             expect(controller.product.newPrice).toBe(controller.product.price);
-        })
+        });
     });
 });

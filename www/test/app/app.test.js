@@ -13,12 +13,8 @@ describe("When app.js is called", function() {
             state = $state.get("home");
         }));
 
-        it("should call the storeController", function() {
-        	expect(state.controller).toBe("storeController");
-        });
-
-        it("should use the storelist.html template", function() {
-        	expect(state.templateUrl).toBe("app/store/storelist.html");
+        it("should call the barcodeController", function() {
+        	expect(state.controller).toBe("barcodeController");
         });
 
         it("should use / as the url", function() {

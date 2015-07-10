@@ -41,6 +41,18 @@
                         }
                     }
                 }
-            }
+            };
+
+            productservice.set = function(product) {
+                if (ionic.Platform.isWebView()){
+                    return $http.post("")
+                } else{
+                    return {
+                        success: function(func) {
+                            func();
+                        }
+                    }
+                }
+            };
         });
 }());

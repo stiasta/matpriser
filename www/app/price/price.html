@@ -1,27 +1,32 @@
 <ion-view>
 	<ion-nav-buttons side="right">
-		<button class="button">
+		<button class="button"
+				ng-click="price.save(price.product)">
 			Save
 		</button>
 	</ion-nav-buttons>
 	<ion-content>
 		<ion-list>
 			<ion-item class="item item-divider">
-				Price
+				Tidligere pris ({{price.product.created | date:'dd.MM.yy'}})
 			</ion-item>
 
 			<ion-item class="item item-input">
 				<div class="icon placeholder-icon">Kr</div>
-				<input type="number" name="price" ng-model="pricecontroller.price" disabled>
+				{{price.product.price}}
 			</ion-item>
 
 			<ion-item class="item item-divider">
-				Your price
+				Er dette din pris?
 			</ion-item>
 
 			<ion-item class="item item-input">
 				<div class="icon placeholder-icon">Kr</div>
-				<input type="number" name="new_price" ng-model="pricecontroller.newPrice" />
+				<input type="text"
+						pattern="\d*" 
+						id="new_price"
+						name="new_price" 
+						ng-model="price.product.newPrice" />
 			</ion-item>
 		</ion-list>
 	</ion-content>

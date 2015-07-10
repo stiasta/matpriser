@@ -16,7 +16,11 @@ describe("productService", function() {
                 this.getIsCalledWithParams = config.params;
             },
 
-            post: function() {
+            postIsCalled: false,
+            postIsCalledWithUrl: undefined,
+            post: function(url, config) {
+                this.postIsCalled = true;
+                this.postIsCalledWithUrl = url;
                 return {
                     success: function(func) {
                         return func(true);
@@ -70,6 +74,26 @@ describe("productService", function() {
                     expect(product.name).toBe("dummy");
                 });
             });
+        });
+    });
+
+    describe("set is called", function() {
+        it("should call http.post with correct url", function() {
+            ionic.Platform.isWebView = function() {
+                return true;
+            };
+
+            service.set({foo:"bar"});
+            expect(mockHttp.postIsCalled).toBe(true);
+        });
+
+        it('should call http.post with correct url', function() {
+           ionic.Platform.isWebView = function() {
+               return true;
+           };
+
+            service.set({});
+            expect(mockHttp.postIsCalledWithUrl).toBe("save");
         });
     });
 });
