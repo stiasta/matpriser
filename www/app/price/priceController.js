@@ -2,7 +2,8 @@
     angular.module('matpriser')
         .controller("priceController", controller);
 
-    function controller($ionicLoading, $state, barcodeService, productService) {
+    function controller($ionicLoading, $state, $ionicNavBarDelegate, barcodeService, productService) {
+        $ionicNavBarDelegate.title("Pris");
         var vm = this;
         vm.save = save;
         

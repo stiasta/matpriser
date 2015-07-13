@@ -2,7 +2,8 @@
     angular.module("matpriser")
         .controller("barcodeController", controller);
 
-    function controller($ionicPlatform, $state, barcodeService) {
+    function controller($ionicPlatform, $state, $ionicNavBarDelegate, barcodeService) {
+        $ionicNavBarDelegate.title("Scan strekkode");
         if (!ionic.Platform.isReady) {
             $ionicPlatform.ready(function () {
                 init();
